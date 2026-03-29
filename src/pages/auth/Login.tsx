@@ -21,10 +21,10 @@ export const Login: React.FC = () => {
 
         <div className="relative z-10 max-w-lg">
           <Link to="/" className="flex items-center gap-3 mb-12 no-underline">
-            <div className="bg-white p-2 rounded-xl shadow-lg">
+            <div className="bg-white p-2 rounded-xl ">
               <Sprout size={32} className="text-primary" />
             </div>
-            <span className="text-3xl font-black text-white tracking-tighter italic">
+            <span className="text-3xl font-semibold text-white tracking-tighter italic">
               Agri_Smart
             </span>
           </Link>
@@ -88,7 +88,10 @@ export const Login: React.FC = () => {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-6"
+          >
             <Input
               label="Email Address"
               type="email"
@@ -110,7 +113,6 @@ export const Login: React.FC = () => {
               {isLoading ? "Signing in..." : "Sign In to Dashboard"}
             </Button>
           </form>
-
 
           <div className="mt-10 text-center">
             <p className="text-sm text-text-muted">

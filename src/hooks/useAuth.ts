@@ -7,8 +7,10 @@ interface User {
   firstName: string;
   lastName: string;
   role: "ADMIN" | "ADVISOR" | "FARMER";
-  district: string;
-  avatar?: string;
+  district?: string;
+  avatarUrl?: string | null;
+  isActive: boolean;
+  phone: string;
 }
 
 export default function useAuth() {

@@ -6,6 +6,7 @@ import {
   BookOpen,
   CloudSun,
   CalendarClock,
+  Users,
   Settings,
 } from "lucide-react";
 
@@ -88,6 +89,16 @@ export const FarmerSidebar: React.FC<FarmerSidebarProps> = ({
           </li>
           <li>
             <NavLink
+              to="/farmer/groups"
+              className={getLinkClass}
+              onClick={onItemClick}
+            >
+              <Users size={16} />
+              <span className="text-xs font-semibold">Community Groups</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/farmer/knowledge"
               className={getLinkClass}
               onClick={onItemClick}
@@ -104,7 +115,7 @@ export const FarmerSidebar: React.FC<FarmerSidebarProps> = ({
           <li>
             <NavLink to="/farmer/settings" className={getLinkClass}>
               <Settings size={16} />
-              <span>Settings</span>
+              <span className="text-xs font-semibold">Settings</span>
             </NavLink>
           </li>
         </ul>

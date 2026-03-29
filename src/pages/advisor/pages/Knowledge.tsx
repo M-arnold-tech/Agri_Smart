@@ -23,7 +23,7 @@ export const AdvisorKnowledge: React.FC = () => {
           <input
             type="text"
             placeholder="Search resources..."
-            className="w-full pl-12 pr-4 py-3 bg-surface border border-gray-200 rounded-xl outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm"
+            className="w-full pl-12 pr-4 py-3 bg-surface border border-gray-200 rounded-xl outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all "
           />
         </div>
       </header>

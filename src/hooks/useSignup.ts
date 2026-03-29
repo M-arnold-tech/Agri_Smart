@@ -25,11 +25,15 @@ const signupSchema = yup.object().shape({
     .required("Please confirm your password"),
   
   // Farmer specific
-  landSizeHectares: yup.number().typeError("Must be a number").when("role", {
-    is: "FARMER",
-    then: (schema) => schema.required("Land size is required").min(0, "Cannot be negative"),
-    otherwise: (schema) => schema.optional(),
-  }),
+  landSizeHectares: yup
+    .number()
+    .transform((value) => (isNaN(value) || value === null || value === undefined) ? undefined : value)
+    .nullable()
+    .when("role", {
+      is: "FARMER",
+      then: (schema) => schema.required("Land size is required").min(0, "Cannot be negative"),
+      otherwise: (schema) => schema.optional(),
+    }),
   crops: yup.array().of(yup.string()).when("role", {
     is: "FARMER",
     then: (schema) => schema.min(1, "At least one crop is required").required("At least one crop is required"),
@@ -60,7 +64,7 @@ interface SignupFormData {
   districtOther?: string;
   password: string;
   confirmPassword: string;
-  landSizeHectares?: number;
+  landSizeHectares?: number | null;
   crops?: string[];
   cropsOther?: string;
   specialization?: string;
@@ -82,6 +86,9 @@ export default function useSignup() {
     resolver: yupResolver(signupSchema) as any,
     defaultValues: {
       role: "FARMER",
+      crops: [],
+      specialization: "",
+      certificationNumber: "",
     }
   });
 

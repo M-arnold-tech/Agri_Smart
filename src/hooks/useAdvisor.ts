@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axiosInstance from "../api/axiosInstance";
 import { toast } from "react-hot-toast";
 
@@ -23,7 +23,7 @@ export default function useAdvisor() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get("/advisor/stats");
@@ -35,9 +35,9 @@ export default function useAdvisor() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const fetchFarmers = async () => {
+  const fetchFarmers = useCallback(async () => {
     try {
       const response = await axiosInstance.get("/advisor/assigned-farmers");
       if (response.data.success) {
@@ -46,9 +46,9 @@ export default function useAdvisor() {
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to fetch farmers");
     }
-  };
+  }, []);
 
-  const assignFarmer = async (farmerId: string) => {
+  const assignFarmer = useCallback(async (farmerId: string) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.post(`/advisor/assign-farmer/${farmerId}`);
@@ -63,9 +63,9 @@ export default function useAdvisor() {
       setIsLoading(false);
     }
     return false;
-  };
+  }, [fetchFarmers]);
 
-  const updateProfile = async (data: any) => {
+  const updateProfile = useCallback(async (data: any) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.put("/advisor/profile", data);
@@ -79,12 +79,12 @@ export default function useAdvisor() {
       setIsLoading(false);
     }
     return false;
-  };
+  }, []);
 
   useEffect(() => {
     fetchStats();
     fetchFarmers();
-  }, []);
+  }, [fetchStats, fetchFarmers]);
 
   return {
     stats,

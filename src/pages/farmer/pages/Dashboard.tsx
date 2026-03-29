@@ -9,14 +9,17 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Button } from "../../../components/ui/Button";
+import useAuth from "../../../hooks/useAuth";
 
 export const FarmerDashboard: React.FC = () => {
+  const { user, isLoading } = useAuth();
+
   return (
     <div className="flex flex-col gap-8 animate-fade-in text-xs">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-text-main mb-1">
-            Welcome back, John!
+            Welcome back, {isLoading ? "..." : user?.firstName || "Farmer"}!
           </h1>
           <p className="text-text-muted text-sm">
             Here is what is happening on your farm today.
@@ -31,7 +34,7 @@ export const FarmerDashboard: React.FC = () => {
       {/* Weather Widget */}
       <section>
         <h2 className="text-xl font-semibold text-text-main mb-4">
-          Today's Weather (Musanze)
+          Today's Weather ({isLoading ? "..." : user?.district || "Your District"})
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="flex items-center gap-4">

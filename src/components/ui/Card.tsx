@@ -16,7 +16,7 @@ export const Card: React.FC<CardProps> = ({
   const baseStyles =
     "bg-surface rounded-md border border-gray-200 p-6 transition-all duration-200";
   const hoverStyles = hoverable
-    ? "cursor-pointer hover:shadow-md hover:-translate-y-0.5 hover:border-primary-light"
+    ? "cursor-pointer  hover:-translate-y-0.5 hover:border-primary-light"
     : "";
 
   return (

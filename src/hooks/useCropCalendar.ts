@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axiosInstance from "../api/axiosInstance";
 import { toast } from "react-hot-toast";
 
@@ -17,7 +17,7 @@ export default function useCropCalendar(district?: string) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchTasks = async (distName?: string) => {
+    const fetchTasks = useCallback(async (distName?: string) => {
         setIsLoading(true);
         try {
             const url = (distName || district) ? `/crop-calendar/${distName || district}` : "/crop-calendar";
@@ -30,9 +30,9 @@ export default function useCropCalendar(district?: string) {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [district]);
 
-    const createTask = async (data: Partial<CropTask>) => {
+    const createTask = useCallback(async (data: Partial<CropTask>) => {
         setIsLoading(true);
         try {
             const response = await axiosInstance.post("/crop-calendar/task", data);
@@ -47,9 +47,9 @@ export default function useCropCalendar(district?: string) {
             setIsLoading(false);
         }
         return false;
-    };
+    }, [fetchTasks]);
 
-    const updateTask = async (id: string, data: Partial<CropTask>) => {
+    const updateTask = useCallback(async (id: string, data: Partial<CropTask>) => {
         setIsLoading(true);
         try {
             const response = await axiosInstance.put(`/crop-calendar/${id}`, data);
@@ -64,9 +64,9 @@ export default function useCropCalendar(district?: string) {
             setIsLoading(false);
         }
         return false;
-    };
+    }, [fetchTasks]);
 
-    const deleteTask = async (id: string) => {
+    const deleteTask = useCallback(async (id: string) => {
         setIsLoading(true);
         try {
             const response = await axiosInstance.delete(`/crop-calendar/${id}`);
@@ -81,11 +81,11 @@ export default function useCropCalendar(district?: string) {
             setIsLoading(false);
         }
         return false;
-    };
+    }, [fetchTasks]);
 
     useEffect(() => {
         fetchTasks();
-    }, [district]);
+    }, [fetchTasks]);
 
     return {
         tasks,

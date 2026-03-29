@@ -2,6 +2,9 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { MainLayout } from "./components/layout/DashboardLayout";
 import { FarmerLayout } from "./pages/farmer/layout/FarmerLayout";
+import { FarmerCalendar } from "./pages/farmer/pages/Calendar";
+import { FarmerGroups } from "./pages/farmer/pages/Groups";
+import { FarmerGroupChat } from "./pages/farmer/pages/GroupChat";
 import { AdvisorLayout } from "./pages/advisor/layout/AdvisorLayout";
 import { AdminLayout } from "./pages/admin/layout/AdminLayout";
 
@@ -13,12 +16,14 @@ import { Register } from "./pages/auth/Register";
 import { FarmerDashboard } from "./pages/farmer/pages/Dashboard";
 import { FarmerChat } from "./pages/farmer/pages/Chat";
 import { FarmerKnowledge } from "./pages/farmer/pages/Knowledge";
+import { FarmerSettings } from "./pages/farmer/pages/Settings";
 import { FarmerPlaceholder } from "./pages/farmer/pages/Placeholder";
 
 // Advisor Module
 import { AdvisorDashboard } from "./pages/advisor/pages/Dashboard";
 import { AdvisorChat } from "./pages/advisor/pages/Chat";
 import { AdvisorKnowledge } from "./pages/advisor/pages/Knowledge";
+import { AdvisorFarmers } from "./pages/advisor/pages/Farmers";
 import { AdvisorPlaceholder } from "./pages/advisor/pages/Placeholder";
 
 // Admin Module
@@ -46,9 +51,11 @@ const App: React.FC = () => {
         <Route index element={<FarmerDashboard />} />
         <Route path="chat" element={<FarmerChat />} />
         <Route path="knowledge" element={<FarmerKnowledge />} />
-        <Route path="calendar" element={<FarmerPlaceholder title="Crop Calendar" />} />
+        <Route path="calendar" element={<FarmerCalendar />} />
+        <Route path="groups" element={<FarmerGroups />} />
+        <Route path="groups/:id" element={<FarmerGroupChat />} />
         <Route path="weather" element={<FarmerPlaceholder title="Local Weather" />} />
-        <Route path="settings" element={<FarmerPlaceholder title="Farmer Settings" />} />
+        <Route path="settings" element={<FarmerSettings />} />
       </Route>
 
       {/* Advisor Dashboard Layout (Shared sidebar under /advisor) */}
@@ -56,7 +63,7 @@ const App: React.FC = () => {
         <Route index element={<AdvisorDashboard />} />
         <Route path="chat" element={<AdvisorChat />} />
         <Route path="knowledge" element={<AdvisorKnowledge />} />
-        <Route path="farmers" element={<AdvisorPlaceholder title="My Assignments" />} />
+        <Route path="farmers" element={<AdvisorFarmers />} />
         <Route path="settings" element={<AdvisorPlaceholder title="Advisor Profile" />} />
       </Route>
 
