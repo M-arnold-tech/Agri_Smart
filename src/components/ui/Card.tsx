@@ -1,5 +1,4 @@
-import React from 'react';
-import './Card.css';
+import React from "react";
 
 interface CardProps {
   children: React.ReactNode;
@@ -8,10 +7,21 @@ interface CardProps {
   hoverable?: boolean;
 }
 
-export const Card: React.FC<CardProps> = ({ children, className = '', onClick, hoverable = false }) => {
+export const Card: React.FC<CardProps> = ({
+  children,
+  className = "",
+  onClick,
+  hoverable = false,
+}) => {
+  const baseStyles =
+    "bg-surface rounded-md border border-gray-200 p-6 transition-all duration-200";
+  const hoverStyles = hoverable
+    ? "cursor-pointer hover:shadow-md hover:-translate-y-0.5 hover:border-primary-light"
+    : "";
+
   return (
-    <div 
-      className={`card ${hoverable ? 'card-hoverable' : ''} ${className}`}
+    <div
+      className={`${baseStyles} ${hoverStyles} ${className}`}
       onClick={onClick}
     >
       {children}

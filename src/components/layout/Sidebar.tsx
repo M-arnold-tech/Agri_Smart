@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, BookOpen, MessageSquare, CloudSun, CalendarClock, Settings } from 'lucide-react';
-import './Sidebar.css';
 
 interface SidebarProps {
   role?: 'FARMER' | 'ADVISOR' | 'ADMIN';
