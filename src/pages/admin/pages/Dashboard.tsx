@@ -7,9 +7,17 @@ import {
   Activity,
   CheckCircle,
   XCircle,
+  Loader2,
 } from "lucide-react";
+import useAdmin from "../../../hooks/useAdmin";
 
 export const AdminDashboard: React.FC = () => {
+  const { stats, pendingAdvisors, isLoading, error, approveAdvisor } = useAdmin();
+
+  const handleApprove = async (id: string) => {
+    await approveAdvisor(id);
+  };
+
   return (
     <div className="flex flex-col gap-8 animate-fade-in">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -23,27 +31,52 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </header>
 
+      {error && (
+        <div className="p-4 bg-error/10 border border-error/20 rounded-sm text-error text-sm flex items-center gap-3 animate-shake">
+          <XCircle size={18} />
+          <p>{error}</p>
+        </div>
+      )}
+
       {/* System Stats overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="flex items-center gap-4">
           <Users size={32} className="text-primary shrink-0" />
           <div>
-            <div className="text-2xl font-bold text-text-main">1,245</div>
+            <div className="text-2xl font-bold text-text-main">
+              {isLoading && !stats ? (
+                <Loader2 className="animate-spin w-5 h-5 text-text-muted" />
+              ) : (
+                stats?.activeFarmers || 0
+              )}
+            </div>
             <div className="text-xs text-text-muted">Total Farmers</div>
           </div>
         </Card>
         <Card className="flex items-center gap-4">
           <ShieldCheck size={32} className="text-secondary shrink-0" />
           <div>
-            <div className="text-2xl font-bold text-text-main">48</div>
+            <div className="text-2xl font-bold text-text-main">
+              {isLoading && !stats ? (
+                <Loader2 className="animate-spin w-5 h-5 text-text-muted" />
+              ) : (
+                stats?.verifiedAdvisors || 0
+              )}
+            </div>
             <div className="text-xs text-text-muted">Verified Advisors</div>
           </div>
         </Card>
         <Card className="flex items-center gap-4">
           <Activity size={32} className="text-[#0ea5e9] shrink-0" />
           <div>
-            <div className="text-2xl font-bold text-text-main">99.9%</div>
-            <div className="text-xs text-text-muted">System Uptime</div>
+            <div className="text-2xl font-bold text-text-main">
+              {isLoading && !stats ? (
+                <Loader2 className="animate-spin w-5 h-5 text-text-muted" />
+              ) : (
+                stats?.systemHealth || "99.9%"
+              )}
+            </div>
+            <div className="text-xs text-text-muted">System Health</div>
           </div>
         </Card>
       </div>
@@ -54,53 +87,51 @@ export const AdminDashboard: React.FC = () => {
             Pending Advisor Approvals
           </h2>
           <Card className="flex flex-col gap-0 p-0 overflow-hidden divide-y divide-border">
-            <div className="flex items-center justify-between p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary-bg text-primary flex items-center justify-center font-bold text-lg">
-                  EK
-                </div>
-                <div>
-                  <h4 className="font-semibold text-text-main text-lg">
-                    Emmanuel K.
-                  </h4>
-                  <p className="text-xs text-text-muted">
-                    Agronomist • 5 years experience • Kigali
-                  </p>
-                </div>
+            {isLoading && pendingAdvisors.length === 0 ? (
+              <div className="p-6 flex justify-center items-center">
+                <Loader2 className="animate-spin text-primary" size={24} />
               </div>
-              <div className="flex gap-2">
-                <Button size="sm" variant="outline">
-                  <XCircle size={16} className="mr-2" /> Reject
-                </Button>
-                <Button size="sm">
-                  <CheckCircle size={16} className="mr-2" /> Approve
-                </Button>
+            ) : pendingAdvisors.length === 0 ? (
+              <div className="p-6 text-center text-text-muted">
+                No pending advisor approvals.
               </div>
-            </div>
-
-            <div className="flex items-center justify-between p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary-bg text-primary flex items-center justify-center font-bold text-lg">
-                  AM
+            ) : (
+              pendingAdvisors.map((advisor) => (
+                <div
+                  key={advisor.id}
+                  className="flex items-center justify-between p-6"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-sm bg-primary-bg text-primary flex items-center justify-center font-bold text-lg">
+                      {advisor.firstName.charAt(0)}
+                      {advisor.lastName.charAt(0)}
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-text-main text-lg">
+                        {advisor.firstName} {advisor.lastName}
+                      </h4>
+                      <p className="text-xs text-text-muted">
+                        {advisor.district
+                          ? `District: ${advisor.district}`
+                          : "No district provided"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" disabled={isLoading}>
+                      <XCircle size={16} className="mr-2" /> Reject
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => handleApprove(advisor.id)}
+                      disabled={isLoading}
+                    >
+                      <CheckCircle size={16} className="mr-2" /> Approve
+                    </Button>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-text-main text-lg">
-                    Alice M.
-                  </h4>
-                  <p className="text-xs text-text-muted">
-                    Soil Specialist • 3 years experience • Huye
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Button size="sm" variant="outline">
-                  <XCircle size={16} className="mr-2" /> Reject
-                </Button>
-                <Button size="sm">
-                  <CheckCircle size={16} className="mr-2" /> Approve
-                </Button>
-              </div>
-            </div>
+              ))
+            )}
           </Card>
         </div>
 

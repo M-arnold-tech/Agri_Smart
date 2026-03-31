@@ -27,7 +27,7 @@ export const FarmerCalendar: React.FC = () => {
           <h1 className="text-3xl font-bold text-text-main mb-1 tracking-tight">
             Crop Calendar
           </h1>
-          <p className="text-text-muted text-sm flex items-center gap-2">
+          <p className="text-text-muted text-xs flex items-center gap-2">
             <MapPin size={18} className="text-primary" />
             Showing seasonal activities for{" "}
             <span className="text-primary font-bold">
@@ -52,7 +52,7 @@ export const FarmerCalendar: React.FC = () => {
       {isLoading && tasks.length === 0 ? (
         <div className="flex flex-col items-center justify-center p-20 text-center opacity-50">
           <Loader2 className="animate-spin text-primary mb-4" size={48} />
-          <p className="text-sm font-bold uppercase tracking-widest leading-none">
+          <p className="text-xs font-bold uppercase tracking-widest leading-none">
             Loading your seasonal tasks...
           </p>
         </div>
@@ -62,7 +62,7 @@ export const FarmerCalendar: React.FC = () => {
           <p className="text-red-800 font-semibold mb-2 uppercase tracking-tighter text-lg">
             Sync Error
           </p>
-          <p className="text-red-600 text-sm mb-6 max-w-sm mx-auto">{error}</p>
+          <p className="text-red-600 text-xs mb-6 max-w-sm mx-auto">{error}</p>
           <Button
             variant="primary"
             onClick={() => refreshTasks()}
@@ -72,15 +72,12 @@ export const FarmerCalendar: React.FC = () => {
           </Button>
         </div>
       ) : tasks.length === 0 ? (
-        <div className="p-20 bg-surface/50 border border-dashed border-gray-200 rounded-[40px] text-center">
-          <Calendar
-            className="mx-auto text-gray-300 mb-4 "
-            size={64}
-          />
+        <div className="p-20 bg-surface/50 border border-dashed border-gray-200 rounded-lg text-center">
+          <Calendar className="mx-auto text-gray-300 mb-4 " size={64} />
           <h3 className="text-xl font-semibold text-text-main mb-2 uppercase tracking-tight">
             No Scheduled Tasks
           </h3>
-          <p className="text-text-muted max-w-sm mx-auto leading-relaxed text-sm font-medium">
+          <p className="text-text-muted max-w-sm mx-auto leading-relaxed text-xs font-medium">
             Your seasonal calendar is currently empty. Your advisor will post
             activities based on your crops and local weather patterns soon.
           </p>
@@ -102,16 +99,13 @@ export const FarmerCalendar: React.FC = () => {
                   : Clock;
 
             return (
-              <Card
-                key={task.id}
-              >
-              
+              <Card key={task.id}>
                 <div className="flex items-start justify-between">
                   <div className="w-11 h-11 rounded-2xl bg-primary-bg flex items-center justify-center transition-transform">
                     <Sprout size={24} className="text-primary" />
                   </div>
                   <span
-                    className={`text-[9px] font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full border ${statusColors[task.status] || statusColors.PENDING} flex items-center gap-1.5`}
+                    className={`text-[9px] font-semibold uppercase tracking-widest px-3 py-1.5 rounded-sm border ${statusColors[task.status] || statusColors.PENDING} flex items-center gap-1.5`}
                   >
                     <StatusIcon size={12} />
                     {task.status}

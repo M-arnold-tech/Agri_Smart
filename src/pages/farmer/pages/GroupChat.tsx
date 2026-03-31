@@ -80,7 +80,7 @@ export const FarmerGroupChat: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center p-20 text-center flex-1 animate-fade-in h-screen">
         <Loader2 className="text-primary animate-spin mb-4" size={48} />
-        <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">
+        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
           Loading community details...
         </p>
       </div>
@@ -90,7 +90,7 @@ export const FarmerGroupChat: React.FC = () => {
   if (!activeGroup && !groupsLoading) {
     return (
       <div className="flex flex-col items-center justify-center p-20 text-center animate-fade-in">
-        <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-6">
+        <div className="w-16 h-16 bg-red-50 text-red-500 rounded-sm flex items-center justify-center mb-6">
           <Info size={32} />
         </div>
         <h3 className="text-xl font-bold text-text-main mb-2">
@@ -113,7 +113,7 @@ export const FarmerGroupChat: React.FC = () => {
         <div className="flex items-center gap-4">
           <Link
             to="/farmer/groups"
-            className="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-primary transition-all"
+            className="w-10 h-10 rounded-sm flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-primary transition-all"
           >
             <ArrowLeft size={20} />
           </Link>
@@ -122,7 +122,7 @@ export const FarmerGroupChat: React.FC = () => {
               <Users size={24} />
             </div>
             <div>
-              <h2 className="text-base font-bold text-text-main uppercase tracking-tight leading-none mb-1">
+              <h2 className="text-sm font-bold text-text-main uppercase tracking-tight leading-none mb-1">
                 {activeGroup?.name || "Community Discussion"}
               </h2>
               <div className="flex items-center gap-2">
@@ -140,14 +140,14 @@ export const FarmerGroupChat: React.FC = () => {
         </div>
         <div className="flex items-center gap-2">
           {!isConnected && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 text-amber-600 border border-amber-100 animate-pulse">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-amber-50 text-amber-600 border border-amber-100 animate-pulse">
               <Loader2 size={12} className="animate-spin" />
               <span className="text-[9px] font-bold uppercase tracking-wider whitespace-nowrap">
                 Connecting...
               </span>
             </div>
           )}
-          <button className="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-50 transition-colors">
+          <button className="w-10 h-10 rounded-sm flex items-center justify-center text-gray-400 hover:bg-gray-50 transition-colors">
             <MoreVertical size={20} />
           </button>
         </div>
@@ -167,7 +167,7 @@ export const FarmerGroupChat: React.FC = () => {
           </div>
         ) : messages.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-12 opacity-50">
-            <div className="w-16 h-16 bg-primary/5 text-primary/30 rounded-full flex items-center justify-center mb-4">
+            <div className="w-16 h-16 bg-primary/5 text-primary/30 rounded-sm flex items-center justify-center mb-4">
               <Users size={32} />
             </div>
             <p className="text-xs font-bold text-text-muted uppercase tracking-widest leading-relaxed max-w-[200px]">
@@ -191,10 +191,10 @@ export const FarmerGroupChat: React.FC = () => {
                         <img
                           src={msg.sender.avatarUrl}
                           alt={msg.sender.firstName}
-                          className="w-5 h-5 rounded-full object-cover"
+                          className="w-5 h-5 rounded-sm object-cover"
                         />
                       ) : (
-                        <div className="w-5 h-5 rounded-full bg-secondary/10 flex items-center justify-center text-[9px] font-bold text-secondary">
+                        <div className="w-5 h-5 rounded-sm bg-secondary/10 flex items-center justify-center text-[9px] font-bold text-secondary">
                           {msg.sender?.firstName?.[0] || "?"}
                         </div>
                       )}
@@ -204,7 +204,7 @@ export const FarmerGroupChat: React.FC = () => {
                     </div>
                   )}
                   <div
-                    className={`px-4 py-3 rounded-[20px] text-sm wrap-break-word  ${
+                    className={`px-4 py-3 rounded-[20px] text-xs wrap-break-word  ${
                       isMe
                         ? "bg-[#2E7D32] text-white rounded-tr-none"
                         : "bg-white text-text-main rounded-tl-none border border-gray-100"
@@ -244,7 +244,7 @@ export const FarmerGroupChat: React.FC = () => {
           <input
             type="text"
             placeholder="Share an update or ask a question..."
-            className="flex-1 bg-gray-50 border border-transparent rounded-2xl py-4 px-6 pr-12 text-sm font-medium outline-none focus:bg-white focus:border-primary/20 transition-all placeholder:text-gray-400"
+            className="flex-1 bg-gray-50 border border-transparent rounded-2xl py-4 px-6 pr-12 text-xs font-medium outline-none focus:bg-white focus:border-primary/20 transition-all placeholder:text-gray-400"
             value={localInput}
             onChange={handleInputChange}
           />

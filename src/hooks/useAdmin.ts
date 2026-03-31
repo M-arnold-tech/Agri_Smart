@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axiosInstance from "../api/axiosInstance";
 import { toast } from "react-hot-toast";
 
@@ -33,51 +33,69 @@ export default function useAdmin() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchStats = async () => {
+    const fetchAllData = useCallback(async () => {
         setIsLoading(true);
+        setError(null);
         try {
-            const response = await axiosInstance.get("/admin/stats");
+            const [statsRes, pendingRes, usersRes] = await Promise.all([
+                axiosInstance.get("/api/v1/admin/stats"),
+                axiosInstance.get("/api/v1/admin/advisors/pending"),
+                axiosInstance.get("/api/v1/admin/users")
+            ]);
+
+            if (statsRes.data.success) setStats(statsRes.data.data);
+            if (pendingRes.data.success) setPendingAdvisors(pendingRes.data.data);
+            if (usersRes.data.success) setUsers(usersRes.data.data);
+
+        } catch (err: any) {
+            console.error("Admin data fetch error:", err);
+            setError(err.response?.data?.message || "Failed to fetch dashboard data");
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const fetchStats = useCallback(async () => {
+        try {
+            const response = await axiosInstance.get("/api/v1/admin/stats");
             if (response.data.success) {
                 setStats(response.data.data);
             }
         } catch (err: any) {
-            setError(err.response?.data?.message || "Failed to fetch admin stats");
-        } finally {
-            setIsLoading(false);
+            setError(err.response?.data?.message || "Failed to refresh stats");
         }
-    };
+    }, []);
 
-    const fetchPendingAdvisors = async () => {
+    const fetchPendingAdvisors = useCallback(async () => {
         try {
-            const response = await axiosInstance.get("/admin/advisors/pending");
+            const response = await axiosInstance.get("/api/v1/admin/advisors/pending");
             if (response.data.success) {
                 setPendingAdvisors(response.data.data);
             }
         } catch (err: any) {
-            setError(err.response?.data?.message || "Failed to fetch pending advisors");
+            setError(err.response?.data?.message || "Failed to refresh pending advisors");
         }
-    };
+    }, []);
 
-    const fetchUsers = async (role?: string) => {
+    const fetchUsers = useCallback(async (role?: string) => {
         try {
-            const url = role ? `/admin/users?role=${role}` : "/admin/users";
+            const url = role ? `/api/v1/admin/users?role=${role}` : "/api/v1/admin/users";
             const response = await axiosInstance.get(url);
             if (response.data.success) {
                 setUsers(response.data.data);
             }
         } catch (err: any) {
-            setError(err.response?.data?.message || "Failed to fetch users");
+            setError(err.response?.data?.message || "Failed to refresh users");
         }
-    };
+    }, []);
 
     const approveAdvisor = async (id: string) => {
         setIsLoading(true);
         try {
-            const response = await axiosInstance.patch(`/admin/approve-advisor/${id}`);
+            const response = await axiosInstance.patch(`/api/v1/admin/approve-advisor/${id}`);
             if (response.data.success) {
                 toast.success(response.data.message || "Advisor approved");
-                await fetchPendingAdvisors(); // Refresh the list
-                await fetchStats(); // Refresh the counts
+                await Promise.all([fetchPendingAdvisors(), fetchStats()]);
                 return true;
             }
         } catch (err: any) {
@@ -91,11 +109,10 @@ export default function useAdmin() {
     const deleteUser = async (id: string) => {
         setIsLoading(true);
         try {
-            const response = await axiosInstance.delete(`/admin/users/${id}`);
+            const response = await axiosInstance.delete(`/api/v1/admin/users/${id}`);
             if (response.data.success) {
                 toast.success(response.data.message || "User deactivated");
-                await fetchUsers(); // Refresh users list
-                await fetchStats(); // Refresh the counts
+                await Promise.all([fetchUsers(), fetchStats()]);
                 return true;
             }
         } catch (err: any) {
@@ -107,10 +124,8 @@ export default function useAdmin() {
     };
 
     useEffect(() => {
-        fetchStats();
-        fetchPendingAdvisors();
-        fetchUsers();
-    }, []);
+        fetchAllData();
+    }, [fetchAllData]);
 
     return {
         stats,

@@ -1,13 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { Sprout } from "lucide-react";
 
-import useSignin from "../../hooks/useSignin";
+import useAuth from "../../hooks/useAuth";
+
+const loginSchema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+});
+
+type LoginFormData = yup.InferType<typeof loginSchema>;
 
 export const Login: React.FC = () => {
-  const { register, handleSubmit, onSubmit, errors, isLoading } = useSignin();
+  const { login, isLoading } = useAuth();
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: yupResolver(loginSchema),
+  });
+
+  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
+    await login(data);
+  };
 
   return (
     <div className="flex min-h-screen bg-background font-sans">
@@ -15,8 +37,8 @@ export const Login: React.FC = () => {
       <div className="hidden lg:flex flex-1 items-center justify-start bg-primary-dark relative overflow-hidden p-16">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-white blur-[120px]"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary blur-[150px]"></div>
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-sm bg-white blur-[120px]"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-sm bg-secondary blur-[150px]"></div>
         </div>
 
         <div className="relative z-10 max-w-lg">
@@ -36,8 +58,8 @@ export const Login: React.FC = () => {
 
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="mt-1 bg-white/10 p-1.5 rounded-full">
-                <div className="w-1.5 h-1.5 bg-secondary rounded-full"></div>
+              <div className="mt-1 bg-white/10 p-1.5 rounded-sm">
+                <div className="w-1.5 h-1.5 bg-secondary rounded-sm"></div>
               </div>
               <p className=" text-white/80 leading-relaxed font-light">
                 Access real-time crop calendars tailored to your specific region
@@ -45,8 +67,8 @@ export const Login: React.FC = () => {
               </p>
             </div>
             <div className="flex items-start gap-4">
-              <div className="mt-1 bg-white/10 p-1.5 rounded-full">
-                <div className="w-1.5 h-1.5 bg-secondary rounded-full"></div>
+              <div className="mt-1 bg-white/10 p-1.5 rounded-sm">
+                <div className="w-1.5 h-1.5 bg-secondary rounded-sm"></div>
               </div>
               <p className=" text-white/80 leading-relaxed font-light">
                 Direct chat with certified advisors to solve pests and
@@ -54,8 +76,8 @@ export const Login: React.FC = () => {
               </p>
             </div>
             <div className="flex items-start gap-4">
-              <div className="mt-1 bg-white/10 p-1.5 rounded-full">
-                <div className="w-1.5 h-1.5 bg-secondary rounded-full"></div>
+              <div className="mt-1 bg-white/10 p-1.5 rounded-sm">
+                <div className="w-1.5 h-1.5 bg-secondary rounded-sm"></div>
               </div>
               <p className=" text-white/80 leading-relaxed font-light">
                 Stay ahead with localized weather alerts and optimized harvest
@@ -83,7 +105,7 @@ export const Login: React.FC = () => {
             <h2 className="text-4xl font-bold text-text-main mb-3 tracking-tight">
               Welcome Back
             </h2>
-            <p className="text-text-muted text-sm ">
+            <p className="text-text-muted text-xs ">
               Login to continue your growth journey
             </p>
           </div>
@@ -115,7 +137,7 @@ export const Login: React.FC = () => {
           </form>
 
           <div className="mt-10 text-center">
-            <p className="text-sm text-text-muted">
+            <p className="text-xs text-text-muted">
               Don't have an account yet?
               <Link
                 to="/register"

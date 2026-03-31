@@ -21,7 +21,7 @@ export const FarmerDashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-text-main mb-1">
             Welcome back, {isLoading ? "..." : user?.firstName || "Farmer"}!
           </h1>
-          <p className="text-text-muted text-sm">
+          <p className="text-text-muted text-xs">
             Here is what is happening on your farm today.
           </p>
         </div>
@@ -34,7 +34,8 @@ export const FarmerDashboard: React.FC = () => {
       {/* Weather Widget */}
       <section>
         <h2 className="text-xl font-semibold text-text-main mb-4">
-          Today's Weather ({isLoading ? "..." : user?.district || "Your District"})
+          Today's Weather (
+          {isLoading ? "..." : user?.district || "Your District"})
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="flex items-center gap-4">
@@ -122,7 +123,7 @@ export const FarmerDashboard: React.FC = () => {
           </h2>
           <Card className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-primary-bg text-primary flex items-center justify-center font-bold text-lg">
+              <div className="w-12 h-12 rounded-sm bg-primary-bg text-primary flex items-center justify-center font-bold text-lg">
                 SA
               </div>
               <div>
@@ -132,7 +133,7 @@ export const FarmerDashboard: React.FC = () => {
                 <p className="text-xs text-text-muted">Agronomist</p>
               </div>
             </div>
-            <div className="bg-[#dcfce7] text-[#166534] px-3 py-1 rounded-full text-[12px] font-bold uppercase tracking-wider">
+            <div className="bg-[#dcfce7] text-[#166534] px-3 py-1 rounded-sm text-[12px] font-bold uppercase tracking-wider">
               Online
             </div>
           </Card>

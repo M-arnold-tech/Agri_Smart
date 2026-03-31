@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useForm, type SubmitHandler, useWatch } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { toast } from "react-hot-toast";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { Sprout, ChevronDown, Check } from "lucide-react";
 import { RWANDA_DISTRICTS } from "../../constants/locations";
 
-import useSignup from "../../hooks/useSignup";
+import useAuth from "../../hooks/useAuth";
 
 const COMMON_CROPS = [
   "Maize",
@@ -18,17 +22,104 @@ const COMMON_CROPS = [
   "Other",
 ];
 
+const signupSchema = yup.object().shape({
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  phone: yup.string().optional(),
+  role: yup.string().oneOf(["FARMER", "ADVISOR", "ADMIN"], "Invalid role").required("Role is required"),
+  district: yup.string().required("District is required"),
+  districtOther: yup.string().when("district", {
+    is: "Other",
+    then: (schema) => schema.required("Please specify your district"),
+    otherwise: (schema) => schema.optional(),
+  }),
+  password: yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
+  confirmPassword: yup.string()
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .required("Please confirm your password"),
+  
+  landSizeHectares: yup
+    .number()
+    .transform((value) => (isNaN(value) || value === null || value === undefined) ? undefined : value)
+    .nullable()
+    .when("role", {
+      is: "FARMER",
+      then: (schema) => schema.required("Land size is required").min(0, "Cannot be negative"),
+      otherwise: (schema) => schema.optional(),
+    }),
+  crops: yup.array().of(yup.string()).when("role", {
+    is: "FARMER",
+    then: (schema) => schema.min(1, "At least one crop is required").required("At least one crop is required"),
+    otherwise: (schema) => schema.optional(),
+  }),
+  cropsOther: yup.string().optional(),
+
+  specialization: yup.string().when("role", {
+    is: "ADVISOR",
+    then: (schema) => schema.required("Specialization is required"),
+    otherwise: (schema) => schema.optional(),
+  }),
+  certificationNumber: yup.string().when("role", {
+    is: "ADVISOR",
+    then: (schema) => schema.required("Certification number is required"),
+    otherwise: (schema) => schema.optional(),
+  }),
+});
+
+type SignupFormData = yup.InferType<typeof signupSchema> & { confirmPassword?: string };
+
 export const Register: React.FC = () => {
+  const { register: registerUser, isLoading } = useAuth();
+  
   const {
     register,
     handleSubmit,
-    onSubmit,
-    errors,
-    isLoading,
-    selectedRole,
-    selectedDistrict,
-    selectedCrops,
-  } = useSignup();
+    formState: { errors },
+    control,
+    reset,
+  } = useForm<SignupFormData>({
+    resolver: yupResolver(signupSchema) as any,
+    defaultValues: {
+      role: "FARMER",
+      crops: [],
+      specialization: "",
+      certificationNumber: "",
+    }
+  });
+
+  const selectedRole = useWatch({ control, name: "role" });
+  const selectedDistrict = useWatch({ control, name: "district" });
+  const selectedCrops = useWatch({ control, name: "crops" });
+
+  const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
+      const { 
+        confirmPassword, 
+        district, 
+        districtOther, 
+        crops, 
+        cropsOther, 
+        ...rest 
+      } = data;
+      
+      const finalDistrict = district === "Other" ? districtOther : district;
+
+      let finalCrops: string[] = [];
+      if (rest.role === "FARMER" && Array.isArray(crops)) {
+        finalCrops = crops.filter((c): c is string => typeof c === "string" && c !== "Other");
+        if (crops.includes("Other") && cropsOther) {
+           finalCrops.push(cropsOther);
+        }
+      }
+
+      const payload = {
+        ...rest,
+        district: finalDistrict,
+        crops: finalCrops,
+      };
+
+      await registerUser(payload);
+  };
 
   return (
     <div className="flex min-h-screen bg-background font-sans">
@@ -36,8 +127,8 @@ export const Register: React.FC = () => {
       <div className="hidden lg:flex flex-1 bg-primary relative overflow-hidden items-center justify-center p-16">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-white blur-[120px]"></div>
-          <div className="absolute bottom-10 right-10 w-[30%] h-[30%] rounded-full bg-secondary blur-[100px]"></div>
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-sm bg-white blur-[120px]"></div>
+          <div className="absolute bottom-10 right-10 w-[30%] h-[30%] rounded-sm bg-secondary blur-[100px]"></div>
         </div>
 
         <div className="relative z-10 max-w-lg">
@@ -57,26 +148,26 @@ export const Register: React.FC = () => {
 
           <div className="space-y-6">
             <div className="flex items-center gap-4 bg-white/5 p-4 rounded-sm backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
-              <div className="bg-secondary/20 p-2 rounded-full">
+              <div className="bg-secondary/20 p-2 rounded-sm">
                 <Check size={24} className="text-white" />
               </div>
-              <p className="text-sm text-white font-medium">
+              <p className="text-xs text-white font-medium">
                 Over 5,000 active Farmers across Rwanda
               </p>
             </div>
             <div className="flex items-center gap-4 bg-white/5 p-4 rounded-sm backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
-              <div className="bg-secondary/20 p-2 rounded-full">
+              <div className="bg-secondary/20 p-2 rounded-sm">
                 <Check size={24} className="text-white" />
               </div>
-              <p className="text-sm text-white font-medium">
+              <p className="text-xs text-white font-medium">
                 200+ Certified Agricultural Experts
               </p>
             </div>
             <div className="flex items-center gap-4 bg-white/5 p-4 rounded-sm backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
-              <div className="bg-secondary/20 p-2 rounded-full">
+              <div className="bg-secondary/20 p-2 rounded-sm">
                 <Check size={24} className="text-white" />
               </div>
-              <p className="text-sm text-white font-medium">
+              <p className="text-xs text-white font-medium">
                 Yield improvements of up to 40%
               </p>
             </div>
@@ -152,7 +243,7 @@ export const Register: React.FC = () => {
                 </label>
                 <div className="relative">
                   <select
-                    className={`w-full px-4 py-3 bg-surface border rounded-md text-sm text-text-main transition-all outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 appearance-none cursor-pointer ${
+                    className={`w-full px-4 py-3 bg-surface border rounded-md text-xs text-text-main transition-all outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 appearance-none cursor-pointer ${
                       errors.district ? "border-red-500" : "border-gray-200"
                     }`}
                     {...register("district")}
@@ -183,7 +274,7 @@ export const Register: React.FC = () => {
                 </label>
                 <div className="relative">
                   <select
-                    className={`w-full px-4 py-3 bg-surface border rounded-md text-sm text-text-main transition-all outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 appearance-none cursor-pointer ${
+                    className={`w-full px-4 py-3 bg-surface border rounded-md text-xs text-text-main transition-all outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 appearance-none cursor-pointer ${
                       errors.role ? "border-red-500" : "border-gray-200"
                     }`}
                     {...register("role")}
@@ -215,7 +306,7 @@ export const Register: React.FC = () => {
             {/* Farmer Specific Fields */}
             {selectedRole === "FARMER" && (
               <div className="flex flex-col gap-4 animate-slide-up p-5 bg-primary/5 rounded-md border border-primary/10">
-                <h3 className="text-sm font-bold text-primary uppercase tracking-wider flex items-center gap-2">
+                <h3 className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-2">
                   <Sprout size={16} /> Farm Details
                 </h3>
                 <Input
@@ -242,7 +333,7 @@ export const Register: React.FC = () => {
                           className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
                           {...register("crops")}
                         />
-                        <span className="text-sm text-text-main group-hover:text-primary transition-colors">
+                        <span className="text-xs text-text-main group-hover:text-primary transition-colors">
                           {crop}
                         </span>
                       </label>
@@ -254,22 +345,24 @@ export const Register: React.FC = () => {
                     </span>
                   )}
                 </div>
-                {selectedRole === "FARMER" && Array.isArray(selectedCrops) && selectedCrops.includes("Other") && (
-                  <Input
-                    label="Specify Other Crops"
-                    type="text"
-                    placeholder="Enter crops (comma separated)"
-                    error={errors.cropsOther?.message}
-                    {...register("cropsOther")}
-                  />
-                )}
+                {selectedRole === "FARMER" &&
+                  Array.isArray(selectedCrops) &&
+                  selectedCrops.includes("Other") && (
+                    <Input
+                      label="Specify Other Crops"
+                      type="text"
+                      placeholder="Enter crops (comma separated)"
+                      error={errors.cropsOther?.message}
+                      {...register("cropsOther")}
+                    />
+                  )}
               </div>
             )}
 
             {/* Advisor Specific Fields */}
             {selectedRole === "ADVISOR" && (
               <div className="flex flex-col gap-4 animate-slide-up p-5 bg-secondary/5 rounded-md border border-secondary/10">
-                <h3 className="text-sm font-bold text-secondary uppercase tracking-wider flex items-center gap-2">
+                <h3 className="text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-2">
                   Professional Details
                 </h3>
                 <Input
@@ -312,7 +405,7 @@ export const Register: React.FC = () => {
           </form>
 
           <div className="mt-10 text-center">
-            <p className="text-sm text-text-muted">
+            <p className="text-xs text-text-muted">
               Already have an account?
               <Link
                 to="/login"

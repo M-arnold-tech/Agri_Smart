@@ -68,22 +68,22 @@ export const FarmerNavbar: React.FC<FarmerNavbarProps> = ({ onMenuClick }) => {
           <input
             type="text"
             placeholder="Search crops, tasks, knowledge..."
-            className="w-full py-2 pl-10 pr-4 rounded-full border border-gray-200 bg-background transition-all text-xs focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary-bg focus:bg-surface"
+            className="w-full py-2 pl-10 pr-4 rounded-sm border border-gray-200 bg-background transition-all text-xs focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary-bg focus:bg-surface"
           />
         </div>
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="hidden lg:flex items-center gap-3 px-3 py-1.5 bg-background rounded-full border border-gray-200 mr-2">
+        <div className="hidden lg:flex items-center gap-3 px-3 py-1.5 bg-background rounded-sm border border-gray-200 mr-2">
           <CloudSun size={18} className="text-primary" />
           <span className="text-xs font-medium">
             {isLoading ? "..." : user?.district || "Rwanda"} • 21°C
           </span>
         </div>
 
-        <button className="relative flex items-center justify-center w-10 h-10 rounded-full text-text-muted hover:bg-background hover:text-text-main transition-colors">
+        <button className="relative flex items-center justify-center w-10 h-10 rounded-sm text-text-muted hover:bg-background hover:text-text-main transition-colors">
           <Bell size={20} />
-          <span className="absolute top-1 right-1.5 bg-red-500 text-white text-[10px] font-bold min-w-[16px] h-4 flex items-center justify-center rounded-full border-2 border-surface">
+          <span className="absolute top-1 right-1.5 bg-red-500 text-white text-[10px] font-bold min-w-[16px] h-4 flex items-center justify-center rounded-sm border-2 border-surface">
             2
           </span>
         </button>
@@ -92,9 +92,9 @@ export const FarmerNavbar: React.FC<FarmerNavbarProps> = ({ onMenuClick }) => {
         <div className="relative" ref={popoverRef}>
           <div
             onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="flex items-center gap-3 cursor-pointer p-1 rounded-full transition-all hover:bg-background group"
+            className="flex items-center gap-3 cursor-pointer p-1 rounded-sm transition-all hover:bg-background group"
           >
-            <div className="bg-primary-bg text-primary w-9 h-9 rounded-full flex items-center justify-center overflow-hidden group-hover:bg-primary group-hover:text-white transition-all shadow-inner border border-primary/10">
+            <div className="bg-primary-bg text-primary w-9 h-9 rounded-sm flex items-center justify-center overflow-hidden group-hover:bg-primary group-hover:text-white transition-all shadow-inner border border-primary/10">
               {user?.avatarUrl ? (
                 <img
                   src={user.avatarUrl}
@@ -122,7 +122,7 @@ export const FarmerNavbar: React.FC<FarmerNavbarProps> = ({ onMenuClick }) => {
             <div className="absolute right-0 mt-2 w-72 bg-surface rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in duration-200 origin-top-right">
               <div className="p-5 bg-primary/5 border-b border-gray-100">
                 <div className="flex items-center gap-4 mb-1">
-                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white overflow-hidden  border-2 border-white">
+                  <div className="w-12 h-12 rounded-sm bg-primary flex items-center justify-center text-white overflow-hidden  border-2 border-white">
                     {user?.avatarUrl ? (
                       <img
                         src={user.avatarUrl}
@@ -134,10 +134,10 @@ export const FarmerNavbar: React.FC<FarmerNavbarProps> = ({ onMenuClick }) => {
                     )}
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-text-main line-clamp-1">
+                    <h4 className="text-xs font-semibold text-text-main line-clamp-1">
                       {user?.firstName} {user?.lastName}
                     </h4>
-                    <span className="text-[10px] px-2 py-0.5 bg-primary text-white font-bold rounded-full uppercase tracking-tighter">
+                    <span className="text-[10px] px-2 py-0.5 bg-primary text-white font-bold rounded-sm uppercase tracking-tighter">
                       {user?.role}
                     </span>
                   </div>

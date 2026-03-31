@@ -69,8 +69,8 @@ export const FarmerSettings: React.FC = () => {
   return (
     <div className="flex flex-col gap-10 animate-fade-in pb-20 max-w-6xl mx-auto font-sans">
       {/* Header Section */}
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-surface-hover p-10 rounded-[40px] border border-gray-100  relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-surface-hover p-10 rounded-lg border border-gray-100  relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-sm blur-3xl -mr-20 -mt-20"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-6 mb-4">
             <div className="w-24 h-24 rounded-[32px] bg-primary flex items-center justify-center text-white  shadow-primary/30 border-4 border-white">
@@ -89,16 +89,16 @@ export const FarmerSettings: React.FC = () => {
                 {user?.firstName} {user?.lastName}
               </h1>
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1 bg-primary text-white text-[10px] font-semibold rounded-full uppercase tracking-widest  shadow-primary/20">
+                <span className="px-3 py-1 bg-primary text-white text-[10px] font-semibold rounded-sm uppercase tracking-widest  shadow-primary/20">
                   {user?.role}
                 </span>
-                <span className="flex items-center gap-1.5 text-xs text-secondary-dark font-bold bg-secondary/10 px-3 py-1 rounded-full">
+                <span className="flex items-center gap-1.5 text-xs text-secondary-dark font-bold bg-secondary/10 px-3 py-1 rounded-sm">
                   <CheckCircle2 size={12} /> Verified Farmer
                 </span>
               </div>
             </div>
           </div>
-          <p className="text-text-muted text-sm font-medium">
+          <p className="text-text-muted text-xs font-medium">
             Join date: January 2024 • Member ID:{" "}
             {user?.id.slice(-8).toUpperCase()}
           </p>
@@ -140,7 +140,7 @@ export const FarmerSettings: React.FC = () => {
               <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">
                 Email
               </p>
-              <p className="text-sm text-text-main font-bold truncate">
+              <p className="text-xs text-text-main font-bold truncate">
                 {user?.email}
               </p>
             </div>
@@ -154,7 +154,7 @@ export const FarmerSettings: React.FC = () => {
               <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">
                 Phone
               </p>
-              <p className="text-sm text-text-main font-bold">
+              <p className="text-xs text-text-main font-bold">
                 {user?.phone || "+250 7XX XXX XXX"}
               </p>
             </div>
@@ -168,7 +168,7 @@ export const FarmerSettings: React.FC = () => {
               <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">
                 District
               </p>
-              <p className="text-sm text-text-main font-bold">
+              <p className="text-xs text-text-main font-bold">
                 {user?.district || "Not Set"}
               </p>
             </div>
@@ -182,7 +182,7 @@ export const FarmerSettings: React.FC = () => {
               <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">
                 Status
               </p>
-              <p className="text-sm text-primary font-semibold uppercase">
+              <p className="text-xs text-primary font-semibold uppercase">
                 Active Member
               </p>
             </div>
@@ -197,7 +197,7 @@ export const FarmerSettings: React.FC = () => {
             <h2 className="text-xl font-semibold text-text-main uppercase tracking-tighter flex items-center gap-3">
               <Users size={18} className="text-secondary" /> Cooperative Groups
             </h2>
-            <p className="text-text-muted text-sm mt-1">
+            <p className="text-text-muted text-xs mt-1">
               Connect with local farmers in {user?.district} and beyond.
             </p>
           </div>
@@ -223,14 +223,14 @@ export const FarmerSettings: React.FC = () => {
             ))}
           </div>
         ) : filteredGroups.length === 0 ? (
-          <div className="bg-surface/50 border border-dashed border-gray-200 rounded-[40px] p-20 text-center flex flex-col items-center">
-            <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-6 text-gray-400">
+          <div className="bg-surface/50 border border-dashed border-gray-200 rounded-lg p-20 text-center flex flex-col items-center">
+            <div className="w-20 h-20 rounded-sm bg-gray-100 flex items-center justify-center mb-6 text-gray-400">
               <Users size={40} />
             </div>
             <h3 className="text-xl font-semibold text-text-main uppercase mb-2">
               No Groups Found
             </h3>
-            <p className="text-text-muted text-sm font-medium max-w-sm">
+            <p className="text-text-muted text-xs font-medium max-w-sm">
               Be the first to build a community in {user?.district}!
             </p>
           </div>
@@ -239,14 +239,14 @@ export const FarmerSettings: React.FC = () => {
             {filteredGroups.map((group) => (
               <Card
                 key={group.id}
-                className=" border border-gray-200 rounded-[40px] bg-white overflow-hidden"
+                className=" border border-gray-200 rounded-lg bg-white overflow-hidden"
               >
                 <div className="h-full flex flex-col">
                   <div className="flex justify-between items-center mb-6">
-                    <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+                    <div className="w-10 h-10 rounded-sm bg-secondary/20 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
                       <Users size={16} />
                     </div>
-                    <span className="px-4 py-1.5 bg-accent text-white text-[10px] font-semibold rounded-full uppercase">
+                    <span className="px-4 py-1.5 bg-accent text-white text-[10px] font-semibold rounded-sm uppercase">
                       {group.district}
                     </span>
                   </div>
@@ -254,7 +254,7 @@ export const FarmerSettings: React.FC = () => {
                   <h3 className="text-lg font-semibold text-text-main mb-3 uppercase tracking-tight group-hover:text-primary transition-colors">
                     {group.name}
                   </h3>
-                  <p className="text-text-muted text-sm font-medium line-clamp-2 mb-6 flex-1 italic">
+                  <p className="text-text-muted text-xs font-medium line-clamp-2 mb-6 flex-1 italic">
                     "{group.description}"
                   </p>
 
@@ -264,7 +264,7 @@ export const FarmerSettings: React.FC = () => {
                         {[1, 2, 3].map((i) => (
                           <div
                             key={i}
-                            className="w-7 h-7 rounded-full bg-gray-200 border border-white"
+                            className="w-7 h-7 rounded-sm bg-gray-200 border border-white"
                           ></div>
                         ))}
                       </div>
@@ -331,7 +331,7 @@ export const FarmerSettings: React.FC = () => {
               Vision & Mission
             </label>
             <textarea
-              className={`w-full px-6 py-4 bg-surface border rounded-2xl text-sm font-medium h-32 outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all resize-none ${
+              className={`w-full px-6 py-4 bg-surface border rounded-2xl text-xs font-medium h-32 outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all resize-none ${
                 errors.description ? "border-red-500" : "border-gray-200"
               }`}
               placeholder="Briefly describe what your group aims to achieve..."

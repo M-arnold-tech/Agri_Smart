@@ -1,101 +1,83 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import axiosInstance from "../api/axiosInstance";
-import { toast } from "react-hot-toast";
 
-interface Resource {
-    id: string;
-    title: string;
-    type: "PDF" | "IMAGE" | "GUIDE";
-    url: string;
-    description?: string;
-    uploadedBy: string;
-    createdAt: string;
+export interface Resource {
+  id: string;
+  title: string;
+  type: string;
+  url: string;
+  category: string;
+  uploadedAt: string;
 }
 
 export default function useKnowledgeBase() {
-    const [resources, setResources] = useState<Resource[]>([]);
-    const [currentResource, setCurrentResource] = useState<Resource | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+  const [resources, setResources] = useState<Resource[]>([]);
+  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    const fetchResources = async () => {
-        setIsLoading(true);
-        try {
-            const response = await axiosInstance.get("/knowledge-base");
-            if (response.data.success) {
-                setResources(response.data.data);
-            }
-        } catch (err: any) {
-            setError(err.response?.data?.message || "Failed to fetch resources");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  const fetchResources = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axiosInstance.get("/api/v1/knowledge-base");
+      if (response.data.success) {
+        setResources(response.data.data || []);
+      }
+    } catch (err: any) {
+      setError("Failed to load resources");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-    const fetchResourceDetails = async (id: string) => {
-        setIsLoading(true);
-        try {
-            const response = await axiosInstance.get(`/knowledge-base/${id}`);
-            if (response.data.success) {
-                setCurrentResource(response.data.data);
-            }
-        } catch (err: any) {
-            setError(err.response?.data?.message || "Failed to fetch resource details");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  const fetchResourceById = useCallback(async (id: string) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axiosInstance.get(`/api/v1/knowledge-base/${id}`);
+      if (response.data.success) {
+        setSelectedResource(response.data.data);
+      }
+    } catch (err: any) {
+      setError("Failed to load resource");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-    const uploadResource = async (formData: FormData) => {
-        setIsLoading(true);
-        try {
-            const response = await axiosInstance.post("/knowledge-base/upload", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
-            if (response.data.success) {
-                toast.success(response.data.message || "Resource uploaded");
-                await fetchResources();
-                return true;
-            }
-        } catch (err: any) {
-            toast.error(err.response?.data?.message || "Upload failed");
-        } finally {
-            setIsLoading(false);
-        }
-        return false;
-    };
+  const uploadResource = async (formData: FormData) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axiosInstance.post("/api/v1/knowledge-base/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      return response.data.success;
+    } catch (err: any) {
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    const deleteResource = async (id: string) => {
-        setIsLoading(true);
-        try {
-            const response = await axiosInstance.delete(`/knowledge-base/${id}`);
-            if (response.data.success) {
-                toast.success(response.data.message || "Resource deleted");
-                await fetchResources();
-                return true;
-            }
-        } catch (err: any) {
-            toast.error(err.response?.data?.message || "Deletion failed");
-        } finally {
-            setIsLoading(false);
-        }
-        return false;
-    };
+  const deleteResource = async (id: string) => {
+    try {
+      const response = await axiosInstance.delete(`/api/v1/knowledge-base/${id}`);
+      return response.data.success;
+    } catch (err: any) {
+      return false;
+    }
+  };
 
-    useEffect(() => {
-        fetchResources();
-    }, []);
-
-    return {
-        resources,
-        currentResource,
-        isLoading,
-        error,
-        fetchResourceDetails,
-        uploadResource,
-        deleteResource,
-        refreshResources: fetchResources
-    };
+  return {
+    resources: resources || [],
+    selectedResource,
+    isLoading,
+    error,
+    fetchResources,
+    fetchResourceById,
+    uploadResource,
+    deleteResource
+  };
 }

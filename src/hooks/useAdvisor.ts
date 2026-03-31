@@ -26,7 +26,7 @@ export default function useAdvisor() {
   const fetchStats = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get("/advisor/stats");
+      const response = await axiosInstance.get("/api/v1/advisor/stats");
       if (response.data.success) {
         setStats(response.data.data);
       }
@@ -39,7 +39,7 @@ export default function useAdvisor() {
 
   const fetchFarmers = useCallback(async () => {
     try {
-      const response = await axiosInstance.get("/advisor/assigned-farmers");
+      const response = await axiosInstance.get("/api/v1/advisor/assigned-farmers");
       if (response.data.success) {
         setFarmers(response.data.data);
       }
@@ -51,7 +51,7 @@ export default function useAdvisor() {
   const assignFarmer = useCallback(async (farmerId: string) => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.post(`/advisor/assign-farmer/${farmerId}`);
+      const response = await axiosInstance.post(`/api/v1/advisor/assign-farmer/${farmerId}`);
       if (response.data.success) {
         toast.success(response.data.message || "Farmer assigned");
         await fetchFarmers(); // Refresh the list
@@ -68,7 +68,7 @@ export default function useAdvisor() {
   const updateProfile = useCallback(async (data: any) => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.put("/advisor/profile", data);
+      const response = await axiosInstance.put("/api/v1/advisor/profile", data);
       if (response.data.success) {
         toast.success(response.data.message || "Profile updated");
         return true;

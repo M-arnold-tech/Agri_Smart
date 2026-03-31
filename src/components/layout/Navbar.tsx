@@ -33,23 +33,23 @@ export const Navbar: React.FC = () => {
           <input
             type="text"
             placeholder="Search crops, tasks, advisors..."
-            className="w-full py-2 pl-10 pr-4 rounded-full border border-gray-200 bg-background transition-all text-xs focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary-bg focus:bg-surface"
+            className="w-full py-2 pl-10 pr-4 rounded-sm border border-gray-200 bg-background transition-all text-xs focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary-bg focus:bg-surface"
           />
         </div>
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="relative flex items-center justify-center w-10 h-10 rounded-full text-text-muted hover:bg-background hover:text-text-main transition-colors">
+        <button className="relative flex items-center justify-center w-10 h-10 rounded-sm text-text-muted hover:bg-background hover:text-text-main transition-colors">
           <Bell size={20} />
-          <span className="absolute top-1 right-1.5 bg-red-500 text-white text-[10px] font-bold min-w-[16px] h-4 flex items-center justify-center rounded-full border-2 border-surface">
+          <span className="absolute top-1 right-1.5 bg-red-500 text-white text-[10px] font-bold min-w-[16px] h-4 flex items-center justify-center rounded-sm border-2 border-surface">
             3
           </span>
         </button>
         <Link
           to="/login"
-          className="flex items-center gap-3 cursor-pointer p-1 rounded-full transition-all hover:bg-background"
+          className="flex items-center gap-3 cursor-pointer p-1 rounded-sm transition-all hover:bg-background"
         >
-          <div className="bg-primary-bg text-primary w-9 h-9 rounded-full flex items-center justify-center">
+          <div className="bg-primary-bg text-primary w-9 h-9 rounded-sm flex items-center justify-center">
             <User size={20} />
           </div>
           <span className="font-medium text-xs pr-2 hidden md:block">

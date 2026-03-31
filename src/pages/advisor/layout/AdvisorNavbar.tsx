@@ -24,7 +24,7 @@ export const AdvisorNavbar: React.FC<AdvisorNavbarProps> = ({
         >
           <Sprout size={28} className="text-secondary" />
           <span className="hidden md:inline">Agri_Smart</span>
-          <span className="text-xs bg-secondary/20 text-text-main px-2 py-0.5 rounded-full ml-1 hidden sm:inline">
+          <span className="text-xs bg-secondary/20 text-text-main px-2 py-0.5 rounded-sm ml-1 hidden sm:inline">
             Advisor
           </span>
         </Link>
@@ -39,25 +39,25 @@ export const AdvisorNavbar: React.FC<AdvisorNavbarProps> = ({
           <input
             type="text"
             placeholder="Search farmers, registrations, reports..."
-            className="w-full py-2 pl-10 pr-4 rounded-full border border-gray-200 bg-background transition-all text-xs focus:outline-none focus:border-secondary focus:ring-3 focus:ring-secondary/10 focus:bg-surface"
+            className="w-full py-2 pl-10 pr-4 rounded-sm border border-gray-200 bg-background transition-all text-xs focus:outline-none focus:border-secondary focus:ring-3 focus:ring-secondary/10 focus:bg-surface"
           />
         </div>
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="hidden lg:flex items-center gap-3 px-3 py-1.5 bg-secondary/10 rounded-full border border-secondary/20 mr-2 text-secondary-dark">
+        <div className="hidden lg:flex items-center gap-3 px-3 py-1.5 bg-secondary/10 rounded-sm border border-secondary/20 mr-2 text-secondary-dark">
           <ShieldCheck size={18} />
           <span className="text-xs font-medium">Verified Advisor</span>
         </div>
 
-        <button className="relative flex items-center justify-center w-10 h-10 rounded-full text-text-muted hover:bg-background hover:text-text-main transition-colors">
+        <button className="relative flex items-center justify-center w-10 h-10 rounded-sm text-text-muted hover:bg-background hover:text-text-main transition-colors">
           <Bell size={20} />
-          <span className="absolute top-1 right-1.5 bg-accent text-white text-[10px] font-bold min-w-[16px] h-4 flex items-center justify-center rounded-full border-2 border-surface">
+          <span className="absolute top-1 right-1.5 bg-accent text-white text-[10px] font-bold min-w-[16px] h-4 flex items-center justify-center rounded-sm border-2 border-surface">
             5
           </span>
         </button>
-        <div className="flex items-center gap-3 cursor-pointer p-1 rounded-full transition-all hover:bg-background group">
-          <div className="bg-secondary/20 text-secondary-dark w-9 h-9 rounded-full flex items-center justify-center group-hover:bg-secondary group-hover:text-white transition-all shadow-inner">
+        <div className="flex items-center gap-3 cursor-pointer p-1 rounded-sm transition-all hover:bg-background group">
+          <div className="bg-secondary/20 text-secondary-dark w-9 h-9 rounded-sm flex items-center justify-center group-hover:bg-secondary group-hover:text-white transition-all shadow-inner">
             <User size={20} />
           </div>
           <div className="hidden md:block pr-2">

@@ -178,7 +178,7 @@ export const FarmerChat: React.FC = () => {
             </h2>
             <button
               onClick={() => setIsDiscoveryOpen(true)}
-              className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-primary hover:bg-primary/10 transition-all hover:scale-110"
+              className="w-8 h-8 rounded-sm bg-gray-100 flex items-center justify-center text-primary hover:bg-primary/10 transition-all hover:scale-110"
               title="New Message"
             >
               <Send size={16} />
@@ -253,7 +253,7 @@ export const FarmerChat: React.FC = () => {
                 >
                   <div className="relative shrink-0">
                     {chat.type === "PRIVATE" ? (
-                      <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center border border-gray-100 overflow-hidden">
+                      <div className="w-14 h-14 rounded-sm bg-gray-100 flex items-center justify-center border border-gray-100 overflow-hidden">
                         <UserCircle2 size={56} className="text-gray-400" />
                       </div>
                     ) : (
@@ -262,7 +262,7 @@ export const FarmerChat: React.FC = () => {
                       </div>
                     )}
                     {chat.type === "PRIVATE" && (
-                      <span className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></span>
+                      <span className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-sm"></span>
                     )}
                   </div>
 
@@ -292,7 +292,7 @@ export const FarmerChat: React.FC = () => {
                         {chat.lastMessage?.content || "No messages yet"}
                       </p>
                       {chat.unreadCount > 0 && (
-                        <span className="bg-[#2E7D32] text-white text-[10px] font-semibold h-5 w-5 flex items-center justify-center rounded-full shrink-0">
+                        <span className="bg-[#2E7D32] text-white text-[10px] font-semibold h-5 w-5 flex items-center justify-center rounded-sm shrink-0">
                           {chat.unreadCount}
                         </span>
                       )}
@@ -346,15 +346,15 @@ export const FarmerChat: React.FC = () => {
                           <img
                             src={dirUser.avatarUrl}
                             alt={dirUser.firstName}
-                            className="w-10 h-10 rounded-full object-cover border border-gray-200"
+                            className="w-10 h-10 rounded-sm object-cover border border-gray-200"
                           />
                         ) : (
-                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                          <div className="w-10 h-10 rounded-sm bg-primary/10 flex items-center justify-center text-primary font-bold">
                             {dirUser.firstName?.[0] || "?"}
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-sm font-bold text-text-main truncate">
+                          <h4 className="text-xs font-bold text-text-main truncate">
                             {dirUser.firstName} {dirUser.lastName}
                           </h4>
                           <span className="text-[10px] uppercase font-bold text-primary tracking-wider">
@@ -382,7 +382,7 @@ export const FarmerChat: React.FC = () => {
                           <Users size={20} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-sm font-bold text-text-main truncate">
+                          <h4 className="text-xs font-bold text-text-main truncate">
                             {group.name}
                           </h4>
                           <span className="text-[10px] text-gray-500 font-medium truncate">
@@ -413,11 +413,11 @@ export const FarmerChat: React.FC = () => {
                   </div>
                 )}
                 {activeChat.type === "PRIVATE" && (
-                  <span className="absolute bottom-1 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                  <span className="absolute bottom-1 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-sm"></span>
                 )}
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-text-main uppercase tracking-tight flex items-center gap-2">
+                <h3 className="text-xs font-semibold text-text-main uppercase tracking-tight flex items-center gap-2">
                   {activeChat.name}
                 </h3>
                 <span className="text-[10px] text-primary font-bold uppercase tracking-widest flex items-center gap-1">
@@ -442,10 +442,10 @@ export const FarmerChat: React.FC = () => {
           )}
 
           <div className="flex gap-2">
-            <button className="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors">
+            <button className="w-10 h-10 rounded-sm flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors">
               <Search size={18} />
             </button>
-            <button className="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors">
+            <button className="w-10 h-10 rounded-sm flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors">
               <MoreVertical size={18} />
             </button>
           </div>
@@ -465,7 +465,7 @@ export const FarmerChat: React.FC = () => {
             </div>
           ) : messages.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center p-8 opacity-50">
-              <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-sm bg-gray-100 flex items-center justify-center mb-4">
                 <Send size={32} className="text-text-muted" />
               </div>
               <h4 className="text-xs font-bold text-text-main mb-2">
@@ -492,10 +492,10 @@ export const FarmerChat: React.FC = () => {
                           <img
                             src={msg.sender.avatarUrl}
                             alt={msg.sender.firstName}
-                            className="w-5 h-5 rounded-full object-cover "
+                            className="w-5 h-5 rounded-sm object-cover "
                           />
                         ) : (
-                          <div className="w-5 h-5 rounded-full bg-secondary/20 flex items-center justify-center text-[9px] font-semibold text-secondary uppercase ">
+                          <div className="w-5 h-5 rounded-sm bg-secondary/20 flex items-center justify-center text-[9px] font-semibold text-secondary uppercase ">
                             {msg.sender?.firstName?.[0] || "?"}
                           </div>
                         )}
@@ -544,13 +544,13 @@ export const FarmerChat: React.FC = () => {
           {typingUsers.size > 0 && (
             <div className="flex w-full justify-start animate-fade-in">
               <div className="bg-surface border border-gray-200 rounded-2xl rounded-tl-none p-3 px-4  flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
+                <span className="w-1.5 h-1.5 bg-gray-400 rounded-sm animate-bounce"></span>
                 <span
-                  className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
+                  className="w-1.5 h-1.5 bg-gray-400 rounded-sm animate-bounce"
                   style={{ animationDelay: "0.2s" }}
                 ></span>
                 <span
-                  className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
+                  className="w-1.5 h-1.5 bg-gray-400 rounded-sm animate-bounce"
                   style={{ animationDelay: "0.4s" }}
                 ></span>
               </div>
@@ -580,7 +580,7 @@ export const FarmerChat: React.FC = () => {
                       fetchGroupHistory(activeGroup.id);
                     }
                   }}
-                  className="rounded-full  hover:scale-105 transition-all"
+                  className="rounded-sm  hover:scale-105 transition-all"
                 >
                   Join Community Group
                 </Button>
@@ -607,7 +607,7 @@ export const FarmerChat: React.FC = () => {
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="rounded-full min-w-10 min-h-10 bg-[#2E7D32] text-white flex items-center justify-center hover:scale-105 transition-all"
+                className="rounded-sm min-w-10 min-h-10 bg-[#2E7D32] text-white flex items-center justify-center hover:scale-105 transition-all"
               >
                 {isLoading && !input ? (
                   <Loader2 size={16} className="animate-spin" />
@@ -671,17 +671,17 @@ export const FarmerChat: React.FC = () => {
                         <img
                           src={dirUser.avatarUrl}
                           alt={dirUser.firstName}
-                          className="w-12 h-12 rounded-full object-cover border border-gray-200"
+                          className="w-12 h-12 rounded-sm object-cover border border-gray-200"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold uppercase text-sm group-hover:bg-primary group-hover:text-white transition-colors">
+                        <div className="w-12 h-12 rounded-sm bg-primary/10 flex items-center justify-center text-primary font-semibold uppercase text-xs group-hover:bg-primary group-hover:text-white transition-colors">
                           {dirUser.firstName?.[0] || "?"}
                         </div>
                       )}
-                      <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                      <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-sm"></span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-text-main truncate group-hover:text-primary transition-colors">
+                      <h4 className="text-xs font-bold text-text-main truncate group-hover:text-primary transition-colors">
                         {dirUser.firstName} {dirUser.lastName}
                       </h4>
                       <p className="text-[10px] text-gray-500 font-semibold truncate uppercase tracking-wider">

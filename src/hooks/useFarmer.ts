@@ -1,32 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axiosInstance from "../api/axiosInstance";
-import { toast } from "react-hot-toast";
 
 interface FarmerStats {
-  landSize: number;
-  cropCount: number;
-  advisorCount: number;
-  activeTasks: number;
+  assignedAdvisor: string | null;
+  activeGroups: number;
+  upcomingTasks: number;
 }
 
-interface Advisor {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  specialization: string[];
+interface ProfileData {
+  landSizeHectares: number;
+  crops: string[];
+  district: string;
 }
 
 export default function useFarmer() {
   const [stats, setStats] = useState<FarmerStats | null>(null);
-  const [advisor, setAdvisor] = useState<Advisor | null>(null);
+  const [advisor, setAdvisor] = useState<any>(null);
+  const [directory, setDirectory] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get("/farmer/my-stats");
+      const response = await axiosInstance.get("/api/v1/farmer/my-stats");
       if (response.data.success) {
         setStats(response.data.data);
       }
@@ -35,47 +32,56 @@ export default function useFarmer() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const fetchAdvisor = async () => {
+  const fetchAdvisor = useCallback(async () => {
     try {
-      const response = await axiosInstance.get("/farmer/my-advisor");
+      const response = await axiosInstance.get("/api/v1/farmer/my-advisor");
       if (response.data.success) {
         setAdvisor(response.data.data);
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to fetch advisor");
+      console.error("No advisor found");
     }
-  };
+  }, []);
 
-  const updateProfile = async (data: any) => {
-    setIsLoading(true);
+  const fetchDirectory = useCallback(async () => {
     try {
-      const response = await axiosInstance.put("/farmer/profile", data);
+      const response = await axiosInstance.get("/api/v1/farmer/directory");
       if (response.data.success) {
-        toast.success(response.data.message || "Profile updated");
-        return true;
+        setDirectory(response.data.data);
       }
     } catch (err: any) {
-      toast.error(err.response?.data?.message || "Update failed");
+      setError(err.response?.data?.message || "Failed to fetch directory");
+    }
+  }, []);
+
+  const updateProfile = async (data: ProfileData) => {
+    setIsLoading(true);
+    try {
+      await axiosInstance.put("/api/v1/farmer/profile", data);
+      return true;
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to update profile");
+      return false;
     } finally {
       setIsLoading(false);
     }
-    return false;
   };
 
   useEffect(() => {
     fetchStats();
     fetchAdvisor();
-  }, []);
+  }, [fetchStats, fetchAdvisor]);
 
   return {
     stats,
     advisor,
+    directory,
     isLoading,
     error,
     updateProfile,
-    refreshStats: fetchStats,
-    refreshAdvisor: fetchAdvisor
+    fetchDirectory,
+    refreshStats: fetchStats
   };
 }

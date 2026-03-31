@@ -26,7 +26,7 @@ export const FarmerGroups: React.FC = () => {
           <h1 className="text-3xl font-bold text-text-main mb-1 tracking-tight uppercase leading-none">
             Community Groups
           </h1>
-          <p className="text-text-muted text-sm flex items-center gap-2 font-medium">
+          <p className="text-text-muted text-xs flex items-center gap-2 font-medium">
             <MapPin size={18} className="text-secondary" />
             Discover cooperative clusters in{" "}
             <span className="text-secondary font-semibold">
@@ -51,17 +51,17 @@ export const FarmerGroups: React.FC = () => {
       {isLoading && groups.length === 0 ? (
         <div className="flex flex-col items-center justify-center p-20 text-center opacity-50">
           <Loader2 className="animate-spin text-secondary mb-4" size={48} />
-          <p className="text-sm font-semibold uppercase tracking-widest leading-none">
+          <p className="text-xs font-semibold uppercase tracking-widest leading-none">
             Finding local communities...
           </p>
         </div>
       ) : groups.length === 0 ? (
-        <div className="p-20 bg-surface/50 border border-dashed border-gray-200 rounded-[40px] text-center">
+        <div className="p-20 bg-surface/50 border border-dashed border-gray-200 rounded-lg text-center">
           <Users className="mx-auto text-gray-300 mb-4 " size={64} />
           <h3 className="text-xl font-semibold text-text-main mb-2 uppercase tracking-tight">
             No Groups Found
           </h3>
-          <p className="text-text-muted max-w-sm mx-auto leading-relaxed text-sm font-medium">
+          <p className="text-text-muted max-w-sm mx-auto leading-relaxed text-xs font-medium">
             We couldn't find any cooperative groups in your district yet. Why
             not start one or contact your advisor?
           </p>
@@ -81,8 +81,8 @@ export const FarmerGroups: React.FC = () => {
                 <div className="w-11 h-11 rounded-2xl bg-secondary/10 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
                   <Users size={22} className="text-secondary" />
                 </div>
-                <div className="bg-surface/80 backdrop-blur-md border border-gray-100 px-3 py-1 rounded-full flex items-center gap-1.5 ">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                <div className="bg-surface/80 backdrop-blur-md border border-gray-100 px-3 py-1 rounded-sm flex items-center gap-1.5 ">
+                  <span className="w-1.5 h-1.5 rounded-sm bg-green-500 animate-pulse" />
                   <span className="text-[9px] font-semibold uppercase tracking-tighter text-text-main">
                     {group.memberCount} members
                   </span>

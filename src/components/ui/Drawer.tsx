@@ -61,7 +61,7 @@ export const Drawer: React.FC<DrawerProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-white  hover:rotate-90 hover:bg-gray-50 transition-all text-text-muted border border-gray-100"
+            className="w-10 h-10 flex items-center justify-center rounded-sm bg-white  hover:rotate-90 hover:bg-gray-50 transition-all text-text-muted border border-gray-100"
           >
             <X size={20} />
           </button>
