@@ -3,19 +3,37 @@ import axiosInstance from "../api/axiosInstance";
 import { toast } from "react-hot-toast";
 
 interface AdminStats {
-    totalUsers: number;
-    activeFarmers: number;
-    verifiedAdvisors: number;
-    pendingApprovals: number;
-    systemHealth: string;
+    users: {
+      total: number;
+      farmers: number;
+      advisors: number;
+      admins: number;
+      pendingAdvisors: number;
+    };
+    community: {
+      totalGroups: number;
+      totalMessages: number;
+    };
+    content: {
+      totalKnowledgeResources: number;
+      totalCropTasks: number;
+    };
 }
 
 interface Advisor {
+    certificationNumber: any;
     id: string;
-    firstName: string;
-    lastName: string;
-    district: string;
-    isVerified: boolean;
+    userId: string;
+    user: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        phone: string;
+    };
+    specialization: string;
+    district?: string;
+    isApproved: boolean;
 }
 
 interface User {
@@ -24,6 +42,8 @@ interface User {
     lastName: string;
     email: string;
     role: "ADMIN" | "ADVISOR" | "FARMER";
+    isActive: boolean;
+    createdAt: string;
 }
 
 export default function useAdmin() {
@@ -92,7 +112,7 @@ export default function useAdmin() {
     const approveAdvisor = async (id: string) => {
         setIsLoading(true);
         try {
-            const response = await axiosInstance.patch(`/api/v1/admin/approve-advisor/${id}`);
+            const response = await axiosInstance.patch(`/api/v1/admin/approve-advisor/${id}`, {});
             if (response.data.success) {
                 toast.success(response.data.message || "Advisor approved");
                 await Promise.all([fetchPendingAdvisors(), fetchStats()]);

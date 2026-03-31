@@ -150,7 +150,7 @@ export const FarmerDashboard: React.FC = () => {
                 View all <ArrowRight size={16} className="ml-1" />
               </a>
             </div>
-            <ul className="divide-y divide-border">
+            <ul className="divide-y divide-gray-200">
               <li className="flex justify-between items-center py-4">
                 <span className="text-text-main font-medium">Maize (1kg)</span>
                 <span className="text-primary-dark font-bold flex items-center gap-1">

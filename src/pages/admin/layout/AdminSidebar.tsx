@@ -2,11 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
-  Users,
-  ShieldCheck,
-  Activity,
-  Settings,
+  UserCheck,
   Sprout,
+  Users,
+  User,
+  Settings,
 } from "lucide-react";
 
 interface AdminSidebarProps {
@@ -33,13 +33,8 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
           : "-translate-x-full md:translate-x-0"
       }`}
     >
-      <div className="flex items-center gap-2 mb-8 px-3">
-        <Sprout size={28} className="text-primary-dark" />
-        <span className="text-lg font-bold text-text-main tracking-tight">
-          Admin System
-        </span>
-      </div>
-      <div className="mb-8">
+      
+      <div className="my-8 text-xs">
         <p className="text-[11px] font-bold text-text-light tracking-wider px-3 mb-3 uppercase">
           SYSTEM ADMIN
         </p>
@@ -51,38 +46,38 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
               end
               onClick={onItemClick}
             >
-              <LayoutDashboard size={20} />
-              <span>Platform Overview</span>
+              <LayoutDashboard size={16} />
+              <p className="text-xs">Dashboard</p>
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/admin/approvals"
+              to="/admin/advisors"
               className={getLinkClass}
               onClick={onItemClick}
             >
-              <ShieldCheck size={20} />
-              <span>Verify Advisors</span>
+              <UserCheck size={16} />
+              <p className="text-xs">Advisors</p>
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/admin/users"
+              to="/admin/farmers"
               className={getLinkClass}
               onClick={onItemClick}
             >
-              <Users size={20} />
-              <span>Manage Users</span>
+              <Sprout size={16} />
+              <p className="text-xs">Farmers</p>
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/admin/activity"
+              to="/admin/groups"
               className={getLinkClass}
               onClick={onItemClick}
             >
-              <Activity size={20} />
-              <span>System Health Logs</span>
+              <Users size={16} />
+              <p className="text-xs">Groups</p>
             </NavLink>
           </li>
         </ul>
@@ -92,12 +87,22 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
         <ul className="list-none flex flex-col gap-1">
           <li>
             <NavLink
+              to="/admin/profile"
+              className={getLinkClass}
+              onClick={onItemClick}
+            >
+              <User size={16} />
+              <p className="text-xs">Profile</p>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/admin/settings"
               className={getLinkClass}
               onClick={onItemClick}
             >
-              <Settings size={20} />
-              <span>Platform Settings</span>
+              <Settings size={16} />
+              <p className="text-xs">Settings</p>
             </NavLink>
           </li>
         </ul>

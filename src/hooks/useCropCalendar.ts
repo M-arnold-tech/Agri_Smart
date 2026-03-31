@@ -36,7 +36,9 @@ export default function useCropCalendar(district?: string) {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axiosInstance.get(`/api/v1/crop-calendar/${targetDistrict}`);
+      const response = await axiosInstance.get(
+        `/api/v1/crop-calendar/${targetDistrict}`,
+      );
       if (response.data.success) {
         setTasks(response.data.data || []);
       }
@@ -49,11 +51,14 @@ export default function useCropCalendar(district?: string) {
 
   const updateTask = async (id: string, data: Partial<Task>) => {
     try {
-      const response = await axiosInstance.put(`/api/v1/crop-calendar/${id}`, data);
+      const response = await axiosInstance.put(
+        `/api/v1/crop-calendar/${id}`,
+        data,
+      );
       if (response.data.success) {
-          if (district) fetchDistrictTasks(district);
-          else fetchAllTasks();
-          return true;
+        if (district) fetchDistrictTasks(district);
+        else fetchAllTasks();
+        return true;
       }
     } catch (err: any) {
       return false;
@@ -63,11 +68,14 @@ export default function useCropCalendar(district?: string) {
 
   const createTask = async (data: any) => {
     try {
-      const response = await axiosInstance.post("/api/v1/crop-calendar/task", data);
+      const response = await axiosInstance.post(
+        "/api/v1/crop-calendar/task",
+        data,
+      );
       if (response.data.success) {
-          if (district) fetchDistrictTasks(district);
-          else fetchAllTasks();
-          return true;
+        if (district) fetchDistrictTasks(district);
+        else fetchAllTasks();
+        return true;
       }
     } catch (err: any) {
       return false;
@@ -77,11 +85,13 @@ export default function useCropCalendar(district?: string) {
 
   const deleteTask = async (id: string) => {
     try {
-      const response = await axiosInstance.delete(`/api/v1/crop-calendar/${id}`);
+      const response = await axiosInstance.delete(
+        `/api/v1/crop-calendar/${id}`,
+      );
       if (response.data.success) {
-          if (district) fetchDistrictTasks(district);
-          else fetchAllTasks();
-          return true;
+        if (district) fetchDistrictTasks(district);
+        else fetchAllTasks();
+        return true;
       }
     } catch (err: any) {
       return false;
@@ -106,6 +116,6 @@ export default function useCropCalendar(district?: string) {
     fetchDistrictTasks,
     updateTask,
     createTask,
-    deleteTask
+    deleteTask,
   };
 }

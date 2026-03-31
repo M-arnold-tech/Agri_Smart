@@ -26,10 +26,12 @@ import { AdvisorKnowledge } from "./pages/advisor/pages/Knowledge";
 import { AdvisorFarmers } from "./pages/advisor/pages/Farmers";
 import { AdvisorPlaceholder } from "./pages/advisor/pages/Placeholder";
 
-// Admin Module
 import { AdminDashboard } from "./pages/admin/pages/Dashboard";
-import { AdminUsers } from "./pages/admin/pages/Users";
-import { AdminPlaceholder } from "./pages/admin/pages/Placeholder";
+import { AdminAdvisors } from "./pages/admin/pages/Advisors";
+import { AdminFarmers } from "./pages/admin/pages/Farmers";
+import { AdminGroups } from "./pages/admin/pages/Groups";
+import { AdminProfile } from "./pages/admin/pages/Profile";
+import { AdminSettings } from "./pages/admin/pages/Settings";
 
 import { Toaster } from "react-hot-toast";
 
@@ -71,10 +73,11 @@ const App: React.FC = () => {
       {/* System Admin Layout (Shared sidebar under /admin) */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
-        <Route path="approvals" element={<AdminPlaceholder title="Verify Advisors" />} />
-        <Route path="users" element={<AdminUsers />} />
-        <Route path="activity" element={<AdminPlaceholder title="System Health Logs" />} />
-        <Route path="settings" element={<AdminPlaceholder title="Platform Settings" />} />
+        <Route path="advisors" element={<AdminAdvisors />} />
+        <Route path="farmers" element={<AdminFarmers />} />
+        <Route path="groups" element={<AdminGroups />} />
+        <Route path="profile" element={<AdminProfile />} />
+        <Route path="settings" element={<AdminSettings />} />
       </Route>
       </Routes>
     </>

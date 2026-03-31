@@ -112,7 +112,7 @@ export const Login: React.FC = () => {
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-6 w-full"
           >
             <Input
               label="Email Address"
@@ -121,15 +121,13 @@ export const Login: React.FC = () => {
               error={errors.email?.message}
               {...register("email")}
             />
-            <div className="flex flex-col gap-1.5">
-              <Input
-                label="Password"
-                type="password"
-                placeholder="••••••••"
-                error={errors.password?.message}
-                {...register("password")}
-              />
-            </div>
+            <Input
+              label="Password"
+              type="password"
+              placeholder="••••••••"
+              error={errors.password?.message}
+              {...register("password")}
+            />
 
             <Button type="submit" size="lg" fullWidth disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign In to Dashboard"}

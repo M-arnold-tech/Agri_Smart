@@ -51,6 +51,6 @@ export default function useWeather() {
     isLoading,
     error,
     fetchDistricts,
-    fetchWeatherData
+    fetchWeatherData,
   };
 }
